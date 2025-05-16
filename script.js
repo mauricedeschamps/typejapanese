@@ -21,12 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 文字体系切り替え
     const hiraganaBtn = document.getElementById('hiraganaBtn');
     const katakanaBtn = document.getElementById('katakanaBtn');
+    const alphabetBtn = document.getElementById('alphabetBtn');
     let currentScript = 'hiragana';
 
     hiraganaBtn.addEventListener('click', () => {
         currentScript = 'hiragana';
         hiraganaBtn.classList.add('active');
         katakanaBtn.classList.remove('active');
+        alphabetBtn.classList.remove('active');
         updateKanaButtons();
         renderOutput();
     });
@@ -35,6 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
         currentScript = 'katakana';
         katakanaBtn.classList.add('active');
         hiraganaBtn.classList.remove('active');
+        alphabetBtn.classList.remove('active');
+        updateKanaButtons();
+        renderOutput();
+    });
+
+    alphabetBtn.addEventListener('click', () => {
+        currentScript = 'alphabet';
+        alphabetBtn.classList.add('active');
+        hiraganaBtn.classList.remove('active');
+        katakanaBtn.classList.remove('active');
         updateKanaButtons();
         renderOutput();
     });
@@ -66,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'ら': 'ラ', 'り': 'リ', 'る': 'ル', 'れ': 'レ', 'ろ': 'ロ',
         'わ': 'ワ', 'を': 'ヲ', 'ん': 'ン',
         'が': 'ガ', 'ぎ': 'ギ', 'ぐ': 'グ', 'げ': 'ゲ', 'ご': 'ゴ',
-        'ざ': 'ザ', 'じ': 'ジ', 'ず': 'ズ', 'ぜ': 'ゼ', 'ぞ': 'ゾ',
-        'だ': 'ダ', 'ぢ': 'ヂ', 'づ': 'ヅ', 'で': 'デ', 'ど': 'ド',
+        'ざ': 'ザ', 'じ': 'ジ', 'ず': 'ズ', 'ぜ': 'З', 'ぞ': 'ゾ',
+        'だ': 'ダ', 'ぢ': 'ヂ', 'づ': 'ヅ', 'で': 'デ', 'ど': 'Д',
         'ば': 'バ', 'び': 'ビ', 'ぶ': 'ブ', 'べ': 'ベ', 'ぼ': 'ボ',
         'ぱ': 'パ', 'ぴ': 'ピ', 'ぷ': 'プ', 'ぺ': 'ペ', 'ぽ': 'ポ',
         'ぁ': 'ァ', 'ぃ': 'ィ', 'ぅ': 'ゥ', 'ぇ': 'ェ', 'ぉ': 'ォ',
@@ -119,26 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'ぴゃ': 'pya', 'ぴゅ': 'pyu', 'ぴょ': 'pyo'
     };
 
-    // 意味マップ
-    const meaningMap = {
-        'あ': 'ah', 'い': 'ee', 'う': 'oo', 'え': 'eh', 'お': 'oh',
-        'か': 'mosquito', 'き': 'tree', 'く': 'mouth', 'け': 'hair', 'こ': 'child',
-        'さ': 'difference', 'し': 'death', 'す': 'vinegar', 'せ': 'back', 'そ': 'sky',
-        'た': 'rice field', 'ち': 'blood', 'つ': 'harbor', 'て': 'hand', 'と': 'door',
-        'な': 'greens', 'に': 'load', 'ぬ': 'cloth', 'ね': 'root', 'の': 'field',
-        'は': 'tooth', 'ひ': 'fire', 'ふ': 'negative', 'へ': 'direction', 'ほ': 'sail',
-        'ま': 'horse', 'み': 'fruit', 'む': 'bug', 'め': 'eye', 'も': 'also',
-        'や': 'arrow', 'ゆ': 'hot water', 'よ': 'world',
-        'ら': 'good', 'り': 'village', 'る': 'lapis lazuli', 'れ': 'example', 'ろ': 'oar',
-        'わ': 'ring', 'を': 'object marker', 'ん': 'hmm',
-        'っ': 'small tsu (geminate consonant)',
-        'ゃ': 'small ya', 'ゅ': 'small yu', 'ょ': 'small yo'
-    };
-
     // DOM要素
     const outputText = document.getElementById('outputText');
     const romajiOutput = document.getElementById('romajiOutput');
-    const meaningOutput = document.getElementById('meaningOutput');
     const speakBtn = document.getElementById('speakBtn');
     const clearBtn = document.getElementById('clearBtn');
     const showRomajiBtn = document.getElementById('showRomajiBtn');
@@ -156,7 +151,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const buttons = document.querySelectorAll('.kana-btn[data-base]');
         buttons.forEach(button => {
             const baseChar = button.getAttribute('data-base');
-            button.textContent = currentScript === 'katakana' ? (katakanaMap[baseChar] || baseChar) : baseChar;
+            if (currentScript === 'katakana') {
+                button.textContent = katakanaMap[baseChar] || baseChar;
+            } else if (currentScript === 'alphabet') {
+                button.textContent = romajiMap[baseChar] || baseChar;
+            } else {
+                button.textContent = baseChar;
+            }
         });
     }
 
@@ -210,7 +211,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function createSubMenuButton(char) {
         const btn = document.createElement('button');
         btn.className = 'kana-btn';
-        btn.textContent = currentScript === 'katakana' ? (katakanaMap[char] || char) : char;
+        
+        if (currentScript === 'katakana') {
+            btn.textContent = katakanaMap[char] || char;
+        } else if (currentScript === 'alphabet') {
+            btn.textContent = romajiMap[char] || char;
+        } else {
+            btn.textContent = char;
+        }
+        
         btn.addEventListener('click', () => {
             addToOutput(char);
             subMenu.classList.add('hidden');
@@ -233,7 +242,15 @@ document.addEventListener('DOMContentLoaded', () => {
         
         chars.forEach(char => {
             const span = document.createElement('span');
-            span.textContent = currentScript === 'katakana' ? (katakanaMap[char] || char) : char;
+            
+            if (currentScript === 'katakana') {
+                span.textContent = katakanaMap[char] || char;
+            } else if (currentScript === 'alphabet') {
+                span.textContent = romajiMap[char] || char;
+            } else {
+                span.textContent = char;
+            }
+            
             span.addEventListener('click', () => {
                 speakCharacter(char);
                 showCharacterInfo(char);
@@ -273,26 +290,26 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateRomajiOutput() {
         if (!showRomaji) {
             romajiOutput.textContent = '';
-            meaningOutput.textContent = '';
             return;
         }
         
         const chars = processOutputString(currentOutput);
         const romaji = chars.map(char => romajiMap[char] || char).join(' ');
         romajiOutput.textContent = romaji;
-        
-        // 最後の文字の意味を表示
-        if (chars.length > 0) {
-            const lastChar = chars[chars.length - 1];
-            meaningOutput.textContent = meaningMap[lastChar] ? `Meaning: ${meaningMap[lastChar]}` : '';
-        }
     }
 
     // 文字の発音
     function speakCharacter(char) {
         if ('speechSynthesis' in window) {
             const utterance = new SpeechSynthesisUtterance();
-            utterance.text = char;
+            
+            // 「は」を「Ha」と発音するように強制
+            if (char === 'は' || char === 'ハ') {
+                utterance.text = 'ha';
+            } else {
+                utterance.text = char;
+            }
+            
             utterance.lang = 'ja-JP';
             utterance.rate = 0.8;
             speechSynthesis.speak(utterance);
@@ -311,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentScript = 'hiragana';
             hiraganaBtn.classList.add('active');
             katakanaBtn.classList.remove('active');
+            alphabetBtn.classList.remove('active');
             renderOutput();
             kanaModal.classList.add('hidden');
         });
@@ -325,24 +343,26 @@ document.addEventListener('DOMContentLoaded', () => {
             currentScript = 'katakana';
             katakanaBtn.classList.add('active');
             hiraganaBtn.classList.remove('active');
+            alphabetBtn.classList.remove('active');
             renderOutput();
             kanaModal.classList.add('hidden');
         });
         modalButtons.appendChild(katakanaBtn);
         
-        // ローマ字表示
-        const romajiBtn = document.createElement('button');
-        romajiBtn.className = 'kana-btn';
-        romajiBtn.textContent = `Romaji: ${romajiMap[char] || char}`;
-        modalButtons.appendChild(romajiBtn);
-        
-        // 意味表示
-        if (meaningMap[char]) {
-            const meaningBtn = document.createElement('button');
-            meaningBtn.className = 'kana-btn';
-            meaningBtn.textContent = `Meaning: ${meaningMap[char]}`;
-            modalButtons.appendChild(meaningBtn);
-        }
+        // アルファベット表示
+        const romajiChar = romajiMap[char] || char;
+        const alphabetBtn = document.createElement('button');
+        alphabetBtn.className = 'kana-btn';
+        alphabetBtn.textContent = `Alphabet: ${romajiChar}`;
+        alphabetBtn.addEventListener('click', () => {
+            currentScript = 'alphabet';
+            alphabetBtn.classList.add('active');
+            hiraganaBtn.classList.remove('active');
+            katakanaBtn.classList.remove('active');
+            renderOutput();
+            kanaModal.classList.add('hidden');
+        });
+        modalButtons.appendChild(alphabetBtn);
         
         kanaModal.classList.remove('hidden');
     }
@@ -358,7 +378,14 @@ document.addEventListener('DOMContentLoaded', () => {
     speakBtn.addEventListener('click', () => {
         if (currentOutput) {
             const utterance = new SpeechSynthesisUtterance();
-            utterance.text = currentOutput;
+            
+            // 出力全体の「は」を「ha」に変換して発音
+            let textToSpeak = currentOutput;
+            if (currentScript === 'hiragana' || currentScript === 'katakana') {
+                textToSpeak = textToSpeak.replace(/は/g, 'ha').replace(/ハ/g, 'ha');
+            }
+            
+            utterance.text = textToSpeak;
             utterance.lang = 'ja-JP';
             utterance.rate = 0.8;
             speechSynthesis.speak(utterance);
