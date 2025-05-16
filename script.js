@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'りゃ': 'rya', 'りゅ': 'ryu', 'りょ': 'ryo',
         'ぎゃ': 'gya', 'ぎゅ': 'gyu', 'ぎょ': 'gyo',
         'じゃ': 'ja', 'じゅ': 'ju', 'じょ': 'jo',
+        'ぢゃ': 'ja', 'ぢゅ': 'ju', 'ぢょ': 'jo',
         'びゃ': 'bya', 'びゅ': 'byu', 'びょ': 'byo',
         'ぴゃ': 'pya', 'ぴゅ': 'pyu', 'ぴょ': 'pyo'
     };
