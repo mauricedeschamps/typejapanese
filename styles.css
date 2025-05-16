@@ -1,0 +1,251 @@
+:root {
+    --bg-color-dark: #1a1a1a;
+    --text-color-dark: #ffffff;
+    --button-bg-dark: #333333;
+    --button-text-dark: #ffffff;
+    --button-active-dark: #555555;
+    --output-bg-dark: #222222;
+    
+    --bg-color-light: #ffffff;
+    --text-color-light: #000000;
+    --button-bg-light: #f0f0f0;
+    --button-text-light: #000000;
+    --button-active-light: #dddddd;
+    --output-bg-light: #f8f8f8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    background-color: var(--bg-color-dark);
+    color: var(--text-color-dark);
+}
+
+body.light-mode {
+    background-color: var(--bg-color-light);
+    color: var(--text-color-light);
+}
+
+header {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+header h1 {
+    font-size: 1.8rem;
+}
+
+.mode-switcher, .script-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+body.dark-mode button {
+    background-color: var(--button-bg-dark);
+    color: var(--button-text-dark);
+}
+
+body.light-mode button {
+    background-color: var(--button-bg-light);
+    color: var(--button-text-light);
+}
+
+button.active {
+    font-weight: bold;
+}
+
+body.dark-mode button.active {
+    background-color: var(--button-active-dark);
+}
+
+body.light-mode button.active {
+    background-color: var(--button-active-light);
+}
+
+main {
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.kana-btn {
+    font-size: 1.5rem;
+    min-width: 3rem;
+    height: 3rem;
+}
+
+.sub-menu {
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+body.dark-mode .sub-menu {
+    background-color: var(--output-bg-dark);
+}
+
+body.light-mode .sub-menu {
+    background-color: var(--output-bg-light);
+}
+
+.sub-menu-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.output-area {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+body.dark-mode .output-area {
+    background-color: var(--output-bg-dark);
+}
+
+body.light-mode .output-area {
+    background-color: var(--output-bg-light);
+}
+
+.output-text {
+    font-size: 2rem;
+    min-height: 3rem;
+    word-wrap: break-word;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+}
+
+.output-text span {
+    cursor: pointer;
+    padding: 0.2rem;
+    border-radius: 3px;
+}
+
+body.dark-mode .output-text span:hover {
+    background-color: #444;
+}
+
+body.light-mode .output-text span:hover {
+    background-color: #ddd;
+}
+
+.output-controls {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.romaji-output, .meaning-output {
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+footer {
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid #444;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--bg-color-dark);
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+body.light-mode .modal-content {
+    background-color: var(--bg-color-light);
+}
+
+.close-modal {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    .row {
+        flex-wrap: wrap;
+    }
+    
+    .kana-btn {
+        min-width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.2rem;
+    }
+}

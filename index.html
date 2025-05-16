@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's type Japanese</title>
+    <meta name="description" content="Japanese Hiragana and Katakana learning app for foreigners">
+    <meta name="theme-color" content="#1a1a1a">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+<body class="dark-mode">
+    <header>
+        <h1>Let's type Japanese</h1>
+        <div class="mode-switcher">
+            <button id="darkModeBtn" class="active">Dark</button>
+            <button id="lightModeBtn">Light</button>
+        </div>
+        <div class="script-switcher">
+            <button id="hiraganaBtn" class="active">ひらがな</button>
+            <button id="katakanaBtn">カタカナ</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="keyboard">
+            <div class="row">
+                <button class="kana-btn" data-base="あ" data-daku="あ" data-handaku="あ">あ</button>
+                <button class="kana-btn" data-base="か" data-daku="が" data-handaku="か">か</button>
+                <button class="kana-btn" data-base="さ" data-daku="ざ" data-handaku="さ">さ</button>
+                <button class="kana-btn" data-base="た" data-daku="だ" data-handaku="た">た</button>
+                <button class="kana-btn" data-base="な" data-daku="な" data-handaku="な">な</button>
+            </div>
+            <div class="row">
+                <button class="kana-btn" data-base="は" data-daku="ば" data-handaku="ぱ">は</button>
+                <button class="kana-btn" data-base="ま" data-daku="ま" data-handaku="ま">ま</button>
+                <button class="kana-btn" data-base="や" data-daku="や" data-handaku="や">や</button>
+                <button class="kana-btn" data-base="ら" data-daku="ら" data-handaku="ら">ら</button>
+                <button class="kana-btn" data-base="わ" data-daku="わ" data-handaku="わ">わ</button>
+            </div>
+        </div>
+
+        <div id="subMenu" class="sub-menu hidden">
+            <div class="sub-menu-buttons"></div>
+        </div>
+
+        <div class="output-area">
+            <div id="outputText" class="output-text"></div>
+            <div class="output-controls">
+                <button id="speakBtn">Speak</button>
+                <button id="clearBtn">Clear</button>
+                <button id="showRomajiBtn">Show Romaji</button>
+            </div>
+            <div id="romajiOutput" class="romaji-output"></div>
+            <div id="meaningOutput" class="meaning-output"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Contact me<br>mementomorikatsu@gmail.com</p>
+    </footer>
+
+    <div id="kanaModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-buttons"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // PWA registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful');
+                }).catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
